@@ -4,6 +4,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 
@@ -15,41 +16,42 @@ public class InformatykaScraping {
 
     public static void getTestSiteResult(){
 
-
-
-            final WebClient client = new WebClient();
-            client.getOptions().setCssEnabled(true);
-            client.getOptions().setJavaScriptEnabled(true);
-            client.getOptions().setThrowExceptionOnScriptError(false);
-            client.getOptions().setThrowExceptionOnFailingStatusCode(false);
-
-
-        HtmlPage page = null;
-        Document parsedDocument = null;
+        WebClient webClient = setupWebClient();
+        Document parsedDocument;
 
         try {
-            page = client.getPage(URL);
-            client.waitForBackgroundJavaScript(10000);
-
+            HtmlPage page = webClient.getPage(URL);
+            webClient.waitForBackgroundJavaScript(10000);
             parsedDocument = Jsoup.parse(page.asXml());
+
+            //Set up variable with data
+            Element mainElements = parsedDocument.getElementsByClass("study-directions").get(0);
+            Elements courseTitle = mainElements.getElementsByClass("title");
+            Elements courseDate = mainElements.getElementsByClass("date");
+            Elements coursePrice = mainElements.getElementsByClass("price");
+
+            //Print all information
+            for(int i=0 ; i < courseTitle.size() ; i++){
+                System.out.print(i + ". " + courseTitle.get(i).text());
+                System.out.print(" -> " + courseDate.get(i).text());
+                System.out.print(" -> " + coursePrice.get(i).text() + "\n");
+            }
 
 
         } catch (Exception e) {
             System.out.println("Get page error");
         }
-        Elements elementsByClass1 = parsedDocument.getElementsByClass("study-directions");
-        Elements elementsByClass2 = elementsByClass1.get(0).getElementsByClass("title");
-        Elements elementsByClass3 = elementsByClass1.get(0).getElementsByClass("date");
-        Elements elementsByClass4 = elementsByClass1.get(0).getElementsByClass("price");
-//        System.out.println(elementsByClass2.size());
-//        System.out.println(elementsByClass2.get(0).text());
+    }
 
-        for(int i=0 ; i < elementsByClass2.size() ; i++){
-            System.out.print(elementsByClass2.get(i).text());
-            System.out.print(" - " + elementsByClass3.get(i).text());
-            System.out.print(" - " + elementsByClass4.get(i).text() + "\n");
+    private static WebClient setupWebClient(){
 
-        }
+        final WebClient client = new WebClient();
+        client.getOptions().setCssEnabled(true);
+        client.getOptions().setJavaScriptEnabled(true);
+        client.getOptions().setThrowExceptionOnScriptError(false);
+        client.getOptions().setThrowExceptionOnFailingStatusCode(false);
+
+        return client;
     }
 }
 
