@@ -8,9 +8,8 @@ public class Main {
 //        ArrayList<String> testSiteResult = InformatykaScraping.getTestSiteResult();
 //        SendEmail.sendEmailTest("kontakt@michaldurlak.pl","WSB Courses", String.valueOf(testSiteResult));
 
-        InformatykaScraping.setSpecificUrl("BHP,Informatyka,Języki");
-        InformatykaScraping.getListOfAllCourses();
-//        InformatykaScraping.getURL();
+        InformatykaScraping.getTestSiteResult();
+        InformatykaScraping.getTestSiteResult("BHP,Informatyka,Języki");
 
     }
 }
