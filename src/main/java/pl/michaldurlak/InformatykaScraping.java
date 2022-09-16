@@ -14,6 +14,9 @@ public class InformatykaScraping {
 
 
     private static String URL = "https://www.wsb.pl/studia-i-szkolenia/szkolenia-i-kursy/listing-szkolen?obszar_szkolenia=informatyka&miasta=gda%C5%84sk";
+    private static String URLBASIC = "https://www.wsb.pl/studia-i-szkolenia/szkolenia-i-kursy/listing-szkolen";
+
+
     private static ArrayList<String> listOfAllCourses = new ArrayList<>();
     public static ArrayList<String> getTestSiteResult(){
 
@@ -51,6 +54,22 @@ public class InformatykaScraping {
         return listOfAllCourses;
     }
 
+    public static void setSpecificUrl(String catalogs){
+        catalogs = catalogs.replaceAll(" ","%20");
+        String[] splitedCatalogs = catalogs.split(",");
+        for(int i=0;i<splitedCatalogs.length;i++){
+            if(i==0){
+                URLBASIC+="?obszar_szkolenia="+splitedCatalogs[i];
+            } else {
+                URLBASIC+="&obszar_szkolenia="+splitedCatalogs[i];
+            }
+
+        }
+        System.out.println(URLBASIC);
+    }
+
+
+
     private static WebClient setupWebClient(){
 
         final WebClient client = new WebClient();
@@ -61,5 +80,44 @@ public class InformatykaScraping {
 
         return client;
     }
+
+
+    public static void getListOfAllCourses() {
+
+        WebClient webClient = setupWebClient();
+        Document parsedDocument;
+
+
+        try {
+            HtmlPage page = webClient.getPage(URLBASIC);
+            webClient.waitForBackgroundJavaScript(10000);
+            parsedDocument = Jsoup.parse(page.asXml());
+
+            //Set up variable with data
+            Element mainElements = parsedDocument.getElementsByClass("study-directions").get(0);
+            Elements courseTitle = mainElements.getElementsByClass("title");
+            Elements courseDate = mainElements.getElementsByClass("date");
+            Elements coursePrice = mainElements.getElementsByClass("price");
+
+            //Print all information
+            for(int i=0 ; i < courseTitle.size() ; i++){
+                System.out.print(i + ". " + courseTitle.get(i).text());
+                System.out.print(" -> " + courseDate.get(i).text());
+                System.out.print(" -> " + coursePrice.get(i).text() + "\n");
+
+//                listOfAllCourses.add(i + ". " + courseTitle.get(i).text() + "\n" + " -> " + courseDate.get(i).text() + "\n" + " -> " + coursePrice.get(i).text() + "\n\n");
+            }
+
+//            System.out.println(listOfAllCourses.size());
+            System.out.println(listOfAllCourses.toString());
+
+        } catch (Exception e) {
+            System.out.println(e+"Get page error");
+        }
+
+//        return listOfAllCourses;
+
+    }
+
 }
 
