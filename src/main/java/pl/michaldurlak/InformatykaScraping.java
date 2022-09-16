@@ -7,17 +7,19 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+
 
 public class InformatykaScraping {
 
 
     private static String URL = "https://www.wsb.pl/studia-i-szkolenia/szkolenia-i-kursy/listing-szkolen?obszar_szkolenia=informatyka&miasta=gda%C5%84sk";
-
-
-    public static void getTestSiteResult(){
+    private static ArrayList<String> listOfAllCourses = new ArrayList<>();
+    public static ArrayList<String> getTestSiteResult(){
 
         WebClient webClient = setupWebClient();
         Document parsedDocument;
+
 
         try {
             HtmlPage page = webClient.getPage(URL);
@@ -32,15 +34,21 @@ public class InformatykaScraping {
 
             //Print all information
             for(int i=0 ; i < courseTitle.size() ; i++){
-                System.out.print(i + ". " + courseTitle.get(i).text());
-                System.out.print(" -> " + courseDate.get(i).text());
-                System.out.print(" -> " + coursePrice.get(i).text() + "\n");
+//                System.out.print(i + ". " + courseTitle.get(i).text());
+//                System.out.print(" -> " + courseDate.get(i).text());
+//                System.out.print(" -> " + coursePrice.get(i).text() + "\n");
+
+                listOfAllCourses.add(i + ". " + courseTitle.get(i).text() + "\n" + " -> " + courseDate.get(i).text() + "\n" + " -> " + coursePrice.get(i).text() + "\n\n");
             }
 
+//            System.out.println(listOfAllCourses.size());
+            System.out.println(listOfAllCourses.toString());
 
         } catch (Exception e) {
-            System.out.println("Get page error");
+            System.out.println(e+"Get page error");
         }
+
+        return listOfAllCourses;
     }
 
     private static WebClient setupWebClient(){

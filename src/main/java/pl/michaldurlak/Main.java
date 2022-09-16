@@ -1,10 +1,13 @@
 package pl.michaldurlak;
 
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
 
-        InformatykaScraping.getTestSiteResult();
-        SendEmail.sendEmailTest("kontakt@michaldurlak.pl","Test smtp","Test smtp");
+
+        ArrayList<String> testSiteResult = InformatykaScraping.getTestSiteResult();
+        SendEmail.sendEmailTest("kontakt@michaldurlak.pl","WSB Courses", String.valueOf(testSiteResult));
 
     }
 }
