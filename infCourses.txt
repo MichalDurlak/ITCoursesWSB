@@ -1,0 +1,17 @@
+[0. Microsoft Excel – kurs na poziomie podstawowym
+ -> Termin: 10 października 2022
+ -> 550 zł
+
+, 1. Microsoft Excel – kurs na poziomie zaawansowany
+ -> Termin: 17 października 2022
+ -> 780 zł
+
+, 2. MS Power Automate. Automatyzacja pracy i procesów
+ -> Termin: 06 października 2022
+ -> 780 zł
+
+, 3. Power Query - MS Excel 2021, MS Excel 365
+ -> Termin: 19 października 2022
+ -> 780 zł
+
+]

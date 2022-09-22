@@ -114,43 +114,5 @@ public class InformatykaScraping {
         return client;
     }
 
-
-    public static void getListOfAllCourses() {
-
-        WebClient webClient = setupWebClient();
-        Document parsedDocument;
-
-
-        try {
-            HtmlPage page = webClient.getPage(URL);
-            webClient.waitForBackgroundJavaScript(10000);
-            parsedDocument = Jsoup.parse(page.asXml());
-
-            //Set up variable with data
-            Element mainElements = parsedDocument.getElementsByClass("study-directions").get(0);
-            Elements courseTitle = mainElements.getElementsByClass("title");
-            Elements courseDate = mainElements.getElementsByClass("date");
-            Elements coursePrice = mainElements.getElementsByClass("price");
-
-            //Print all information
-            for(int i=0 ; i < courseTitle.size() ; i++){
-                System.out.print(i + ". " + courseTitle.get(i).text());
-                System.out.print(" -> " + courseDate.get(i).text());
-                System.out.print(" -> " + coursePrice.get(i).text() + "\n");
-
-//                listOfAllCourses.add(i + ". " + courseTitle.get(i).text() + "\n" + " -> " + courseDate.get(i).text() + "\n" + " -> " + coursePrice.get(i).text() + "\n\n");
-            }
-
-//            System.out.println(listOfAllCourses.size());
-            System.out.println(listOfAllCourses.toString());
-
-        } catch (Exception e) {
-            System.out.println(e+"Get page error");
-        }
-
-//        return listOfAllCourses;
-
-    }
-
 }
 
